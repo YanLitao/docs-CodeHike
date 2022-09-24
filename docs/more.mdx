@@ -1,48 +1,25 @@
 # Scrollycoding
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Praesent elementum facilisis leo vel fringilla est ullamcorper eget. At imperdiet dui accumsan sit amet nulla facilities morbi tempus. Praesent elementum facilisis leo vel fringilla. Congue mauris rhoncus aenean vel. Egestas sed tempus urna et pharetra pharetra massa massa ultricies.
-
-Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Praesent elementum facilisis leo vel fringilla est ullamcorper eget. At imperdiet dui accumsan sit amet nulla facilities morbi tempus. Praesent elementum facilisis leo vel fringilla. Congue mauris rhoncus aenean vel. Egestas sed tempus urna et pharetra pharetra massa massa ultricies.
+Now, let's start coding.
 
 <CH.Scrollycoding>
 
-## Step 1
+## Importing the data
 
-Lorem ipsum dolor sit amet, consectetur adipiscing something about points, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+Before we analyze the Titanic dataset, we need to import several Python packages: Pandas, Numpy, sklearn, Matplotlib, etc.
 
-> Nova in illis at dabat legi harundine non, ova miratur? _Quid in_ sole aer
-> ad diffusa illis voluisti fidensque coniugiale laniata curam. Aras rivus
-> eripuit, qua fistula haec partus; serpens, negat.
-
-Praesent elementum facilisis leo vel fringilla est ullamcorper eget. At imperdiet dui accumsan sit amet nulla facilities morbi tempus.
-
-```js app.js focus=3:10
-const { lorem, ipsum } = dolor({
-  sit: {
-    amet: 1,
-    consectetur: 2,
-    adipiscing: (elit) => ({
-      sed: elit,
-    }),
-    eiusmod: (tempor) => ({
-      incididunt: tempor,
-    }),
-    ut: (labore) => ({
-      et: labore,
-      dolore: labore + 1,
-    }),
-    magna: (aliqua) => ({
-      ut: aliqua,
-    }),
-    nostrud: (elit) => ({
-      exercitation: elit,
-      ullamco: elit,
-    }),
-    laboris: (elit) => ({
-      nisi: elit,
-    }),
-  },
-});
+```py titanic.py focus=1:6
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split,GridSearchCV
+from sklearn.tree import DecisionTreeRegressor,DecisionTreeClassifier
+import matplotlib.pyplot as plt
+import seaborn as sns
+%matplotlib inline
+#import train and test data.
+train=pd.read_csv('train.csv')
+test=pd.read_csv('test.csv')
+name=train.Name
 ```
 
 ---
