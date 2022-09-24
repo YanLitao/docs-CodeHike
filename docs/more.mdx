@@ -27,11 +27,14 @@ train=pd.read_csv('train.csv')
 test=pd.read_csv('test.csv')
 name=train.Name
 #train.head()
+
+#Part 1. Cleaning the data
+#train.isnull().sum()
 ```
 
 ---
 
-## Step 2
+## The First Glance of the Data
 
 If you are using Jupyter Notebook, you can also include this line to check the dataset.
 
@@ -45,63 +48,91 @@ It will look like this:
 | 4           | 1        | 1      | ... | female | 35.0 | 1     | ... |
 | 5           | 0        | 3      | ... | male   | 35.0 | 0     | ... |
 
-```py titanic.js focus=12:12
+```py titanic.py focus=12:12
 
 ```
 
 ---
 
-## Step 3
+## What does this data set mean.
 
-Id aliquet risus feugiat in ante metus dictum at tempor. Sed blandit libero volutpat sed cras. Sed odio morbi quis commodo odio aenean sed adipiscing. Velit euismod in pellentesque massa placerat. Mi bibendum neque egestas congue quisque egestas diam in arcu.
+The data has been split into two groups:
 
-- Nisi lacus sed viverra tellus in
-- Nibh cras pulvinar mattis nunc sed
-- Luctus accumsan tortor posuere ac
+* training set (train.csv)
+* test set(test.csv) 
+The training set includes passengers survival status(also know as the ground truth from the titanic tragedy) which along with other features like gender, class, fare and pclass is used to create machine learning model. 
 
-Ut consequat semper viverra. Fringilla ut morbi tincidunt augue interdum velit euismod.
+The test set should be used to see how well my model performs on unseen data. The test set does not provide passengers survival status. We are going to use our model to predict passenger survival status. 
 
-```js app.js focus=11:14
-const { lorem, ipsum } = dolor({
-  sit: {
-    amet: 1,
-    consectetur: 2,
-    adipiscing: (elit) => ({
-      sed: elit,
-    }),
-    eiusmod: (tempor) => ({
-      incididunt: tempor,
-    }),
-    ut: (labore) => ({
-      et: lorem(labore * ipsum),
-      dolore: lorem(labore + 1),
-    }),
-    nostrud: (elit) => ({
-      exercitation: elit,
-      ullamco: elit,
-    }),
-    laboris: (elit) => ({
-      nisi: elit,
-    }),
-  },
-});
-```
+Lets describe whats the meaning of the features given the both train & test datasets.
+
+Variable Definition Key.
+
+* Survival
+    * 0= No
+    * 1= Yes
+* pclass (Ticket class)
+    * 1=1st
+    * 2=2nd
+    * 3=3rd
+* sex 
+* age
+* sibsp (# of siblings / spouses aboard the Titanic) 
+* parch (# of parents / children aboard the Titanic) 
+* tickets 
+* fare 
+* cabin
+* embarked Port of Embarkation.
+    * C = Cherbourg,
+    * Q = Queenstown,
+    * S = Southampton
+* pclass: A proxy for socio-economic status (SES) 
+
+This is important to remember and will come in handy for later analysis.
+* 1st = Upper
+* 2nd = Middle
+* 3rd = Lower
 
 ---
 
-## Step 4
 
-Velit euismod in pellentesque massa placerat. Mi bibendum neque egestas congue quisque egestas diam in arcu. Nisi lacus sed viverra tellus in. Venenatis cras sed felis eget velit. Consectetur libero id faucibus nisl tincidunt.
+```py titanic.py focus=15:15
 
-Sed blandit libero volutpat sed cras.
+```
 
-- Nisi lacus sed viverra tellus in
-- Nibh cras pulvinar mattis nunc sed
+## Part 1. Cleaning the data.
 
-Gravida in fermentum et sollicitudin ac orci phasellus egestas tellus. Volutpat consequat mauris nunc congue nisi vitae.
+It looks like this dataset is quite organized, however, before using this dataset for analyzing and visualizing we need to deal with ..
 
-```js app.js focus=15:21
+* Different variables
+* Null values
 
+### Different variables present in the datasets.
+
+* There are four type of variables
+    * Numerical Features: Age, Fare, SibSp and Parch
+    * Categorical Features: Sex, Embarked, Survived and Pclass
+    * Alphanumeric Features: Ticket and Cabin(Contains both alphabets and the numeric value)
+    * Text Features: Name
+
+We really need to tweak these features so we get the desired form of input data.
+
+By using the code in Line 15, we can get the data with NaN.
+
+```py Cleaning.py focus=1:13
+PassengerId      0
+Survived         0
+Pclass           0
+Name             0
+Sex              0
+Age            177
+SibSp            0
+Parch            0
+Ticket           0
+Fare             0
+Cabin          687
+Embarked         2
+dtype: int64
 ```
 
 ---
