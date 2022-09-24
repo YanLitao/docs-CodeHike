@@ -1,0 +1,8 @@
+{
+    "name": "A Tutorial for Titanic Data Analysis",
+    "sidebar": [
+      ["Overview", "/"],
+      ["More", "/more"]
+    ],
+    "experimentalCodehike": true
+  }
