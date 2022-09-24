@@ -1,6 +1,6 @@
 # Scrollycoding
 
-Now, let's start coding.
+Now, let's start cleaning the data.
 
 
 
@@ -27,9 +27,6 @@ train=pd.read_csv('train.csv')
 test=pd.read_csv('test.csv')
 name=train.Name
 #train.head()
-
-#Part 1. Cleaning the data
-#train.isnull().sum()
 ```
 
 ---
@@ -95,11 +92,6 @@ This is important to remember and will come in handy for later analysis.
 
 ---
 
-
-```py titanic.py focus=15:15
-
-```
-
 ## Part 1. Cleaning the data.
 
 It looks like this dataset is quite organized, however, before using this dataset for analyzing and visualizing we need to deal with ..
@@ -117,47 +109,79 @@ It looks like this dataset is quite organized, however, before using this datase
 
 We really need to tweak these features so we get the desired form of input data.
 
-By using the code in Line 15, we can get the data with NaN.
+By using the code in Line 1, we can get the data with NaN.
 
-```py Cleaning.py focus=1:13
-PassengerId      0
-Survived         0
-Pclass           0
-Name             0
-Sex              0
-Age            177
-SibSp            0
-Parch            0
-Ticket           0
-Fare             0
-Cabin          687
-Embarked         2
-dtype: int64
+```py Cleaning.py focus=1:16
+Part 1. Cleaning the data
+train.isnull().sum()
+
+#PassengerId      0
+#Survived         0
+#Pclass           0
+#Name             0
+#Sex              0
+#Age            177
+#SibSp            0
+#Parch            0
+#Ticket           0
+#Fare             0
+#Cabin          687
+#Embarked         2
+#dtype: int64
+
+Imp=Imputer(missing_values='NaN',strategy='median',axis=1)
+new=Imp.fit_transform(train.Age.values.reshape(1,-1))
+train['Age2']=new.T
+train.drop('Age',axis=1,inplace=True)
+train.isnull().sum()
+
+#PassengerId      0
+#Survived         0
+#Pclass           0
+#Name             0
+#Sex              0
+#Age            177
+#SibSp            0
+#Parch            0
+#Ticket           0
+#Fare             0
+#Cabin          687
+#Embarked         2
+#dtype: int64
+
+train.set_index('PassengerId',inplace=True)
+## get dummy variables for Column sex and embarked since they are categorical value.
+train = pd.get_dummies(train, columns=["Sex"], drop_first=True)
+train = pd.get_dummies(train, columns=["Embarked"],drop_first=True)
+
+
+#Mapping the data.
+train['Fare'] = train['Fare'].astype(int)
+train.loc[train.Fare<=7.91,'Fare']=0
+train.loc[(train.Fare>7.91) &(train.Fare<=14.454),'Fare']=1
+train.loc[(train.Fare>14.454)&(train.Fare<=31),'Fare']=2
+train.loc[(train.Fare>31),'Fare']=3
+
+train['Age2']=train['Age2'].astype(int)
+train.loc[ train['Age2'] <= 16, 'Age2']= 0
+train.loc[(train['Age2'] > 16) & (train['Age2'] <= 32), 'Age2'] = 1
+train.loc[(train['Age2'] > 32) & (train['Age2'] <= 48), 'Age2'] = 2
+train.loc[(train['Age2'] > 48) & (train['Age2'] <= 64), 'Age2'] = 3
+train.loc[train['Age2'] > 64, 'Age2'] = 4
+
+# In our data the Ticket and Cabin,Name are the base less,leds to the false prediction so Drop both of them.
+train.drop(['Ticket','Cabin','Name'],axis=1,inplace=True)
+train.head()
+print(type(train.Age2))
 ```
 
+After we cleaning the NaN value in the **Age** column, the data looks better.
+```py Cleaning.py focus=18:36
+```
+
+Then, we can continue clean the NaN values in the **Cabin** column.
+```py Cleaning.py focus=55:60
+```
 ---
 
-## Step 5
-
-Velit euismod in pellentesque massa placerat. Mi bibendum neque egestas congue quisque egestas diam in arcu. Nisi lacus sed viverra tellus in.
-
-Praesent elementum facilisis leo vel fringilla est ullamcorper eget.
-
-Id aliquet risus feugiat in ante metus dictum at tempor. Sed blandit libero volutpat sed cras. Sed odio morbi quis commodo odio aenean sed adipiscing. Velit euismod in pellentesque massa placerat.
-
-Mi bibendum neque egestas congue quisque egestas diam in arcu. Nisi lacus sed viverra tellus in. Nibh cras pulvinar mattis nunc sed. Luctus accumsan tortor posuere ac ut consequat semper viverra.
-
-- Fringilla ut morbi tincidunt augue interdum velit euismod.
-- Luctus accumsan tortor posuere ac ut consequat semper viverra.
-
-Morbi quis commodo.
-
-```js app.js
-
-```
-
 </CH.Scrollycoding>
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Praesent elementum facilisis leo vel fringilla est ullamcorper eget. At imperdiet dui accumsan sit amet nulla facilities morbi tempus. Praesent elementum facilisis leo vel fringilla. Congue mauris rhoncus aenean vel. Egestas sed tempus urna et pharetra pharetra massa massa ultricies.
-
-Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Praesent elementum facilisis leo vel fringilla est ullamcorper eget. At imperdiet dui accumsan sit amet nulla facilities morbi tempus. Praesent elementum facilisis leo vel fringilla. Congue mauris rhoncus aenean vel. Egestas sed tempus urna et pharetra pharetra massa massa ultricies.
